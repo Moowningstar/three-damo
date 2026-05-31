@@ -1,16 +1,18 @@
+# Use Python 3.11 slim (alpine may have issues with faiss-cpu compilation)
 FROM python:3.11-slim
 
+# Create and change to the app directory
 WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application
+# Copy local code to the container image
 COPY . .
 
-# Expose port
+# Install project dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port (Railway uses PORT env variable)
 EXPOSE 8000
 
-# Run application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+# Run the web service on container startup
+# Use hypercorn for better async support (Railway recommended)
+CMD ["hypercorn", "app.main:app", "--bind", "[::]:8000"]
