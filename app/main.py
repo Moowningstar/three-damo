@@ -11,23 +11,20 @@ from .rag import rag_manager
 app = FastAPI(title="AI Chat API", version="1.0.0")
 
 # CORS middleware - 配置允许的前端域名
-# 生产环境请替换为实际的前端域名
-allowed_origins = [
-    "http://localhost:5173",  # 本地开发
-    "http://localhost:3000",  # 备用端口
-    "https://*.edgeone.ai",   # EdgeOne Pages
-    "https://*.vercel.app",   # Vercel
-    "https://*.netlify.app",  # Netlify
-]
+# 从环境变量读取 CORS 配置，默认允许所有来源（生产环境建议限制）
+cors_origins = os.getenv("CORS_ORIGINS", "*")
 
-# 从环境变量读取额外的允许域名
-if frontend_url := os.getenv("FRONTEND_URL"):
-    allowed_origins.append(frontend_url)
+if cors_origins == "*":
+    # 允许所有来源
+    allowed_origins = ["*"]
+else:
+    # 从环境变量解析多个域名（逗号分隔）
+    allowed_origins = [origin.strip() for origin in cors_origins.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=True,
+    allow_credentials=True if allowed_origins != ["*"] else False,  # credentials 与 * 不兼容
     allow_methods=["*"],
     allow_headers=["*"],
 )
