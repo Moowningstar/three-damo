@@ -14,17 +14,21 @@ class RAGManager:
         
         # 构建 Embeddings 配置
         embeddings_config = {
-            "api_key": settings.openai_api_key,
+            # 使用独立的 Embedding API Key（如果配置了），否则使用 LLM 的 Key
+            "api_key": settings.embedding_api_key or settings.openai_api_key,
             "model": settings.embedding_model
         }
 
-        # 如果配置了自定义 base_url，则添加
-        if settings.openai_api_base:
-            base_url = settings.openai_api_base
-            # 确保 base_url 以 /v1 结尾
-            if not base_url.endswith('/v1'):
+        # 使用独立的 Embedding API Base URL（如果配置了）
+        if settings.embedding_api_base:
+            base_url = settings.embedding_api_base
+            # 确保 base_url 以 /v1 结尾（如果不是完整的 embeddings 端点）
+            if not base_url.endswith('/embeddings') and not base_url.endswith('/v1'):
                 base_url = base_url.rstrip('/') + '/v1'
             embeddings_config["base_url"] = base_url
+        else:
+            # 如果没有配置独立的 Embedding URL，使用 OpenAI 官方 API
+            embeddings_config["base_url"] = "https://api.openai.com/v1"
 
         self.embeddings = OpenAIEmbeddings(**embeddings_config)
         self.vectorstore = None

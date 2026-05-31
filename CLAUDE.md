@@ -1,7 +1,7 @@
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **backend** (74 symbols, 125 relationships, 4 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **three-damo** (91 symbols, 138 relationships, 4 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 
@@ -24,10 +24,10 @@ This project is indexed by GitNexus as **backend** (74 symbols, 125 relationship
 
 | Resource | Use for |
 |----------|---------|
-| `gitnexus://repo/backend/context` | Codebase overview, check index freshness |
-| `gitnexus://repo/backend/clusters` | All functional areas |
-| `gitnexus://repo/backend/processes` | All execution flows |
-| `gitnexus://repo/backend/process/{name}` | Step-by-step execution trace |
+| `gitnexus://repo/three-damo/context` | Codebase overview, check index freshness |
+| `gitnexus://repo/three-damo/clusters` | All functional areas |
+| `gitnexus://repo/three-damo/processes` | All execution flows |
+| `gitnexus://repo/three-damo/process/{name}` | Step-by-step execution trace |
 
 ## CLI
 
