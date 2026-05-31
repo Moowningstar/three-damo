@@ -4,15 +4,29 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Optional
 import uuid
+import os
 from .chat import chat_manager
 from .rag import rag_manager
 
 app = FastAPI(title="AI Chat API", version="1.0.0")
 
-# CORS middleware
+# CORS middleware - 配置允许的前端域名
+# 生产环境请替换为实际的前端域名
+allowed_origins = [
+    "http://localhost:5173",  # 本地开发
+    "http://localhost:3000",  # 备用端口
+    "https://*.edgeone.ai",   # EdgeOne Pages
+    "https://*.vercel.app",   # Vercel
+    "https://*.netlify.app",  # Netlify
+]
+
+# 从环境变量读取额外的允许域名
+if frontend_url := os.getenv("FRONTEND_URL"):
+    allowed_origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
