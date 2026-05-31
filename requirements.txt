@@ -1,10 +1,11 @@
 fastapi==0.109.0
 uvicorn[standard]==0.27.0
 python-dotenv==1.0.0
-langchain==0.1.0
-langchain-openai==0.0.2
-langchain-community==0.0.10
-faiss-cpu>=1.8.0  # 更新到最新版本，支持更多 Python 版本
-tiktoken==0.5.2
+langchain>=1.3.2
+langchain-openai>=1.2.2
+langchain-community>=0.4.2
+langchain-text-splitters>=0.3.0
+faiss-cpu>=1.14.2
+tiktoken>=0.13.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
